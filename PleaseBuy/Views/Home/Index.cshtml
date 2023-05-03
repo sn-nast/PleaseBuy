@@ -83,7 +83,7 @@
                 <input type="text" asp-for="Location" name="Location" id="location" placeholder="สถานที่รับ" required />
                 <input type="text" asp-for="Owner" name="Owner" value="@ViewData["Username"]" hidden />
             </div>
-            <button type="submit" onclick="closePopup()">เพิ่มรายการรับฝาก</button>
+            <button type="submit" @*onclick="closePopup()"*@>เพิ่มรายการรับฝาก</button>
         </form>
     </div>
 </div>

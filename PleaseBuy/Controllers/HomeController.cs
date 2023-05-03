@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace PleaseBuy.Controllers
 {
-    [Authorize]
+    // [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<PleaseBuyUser> _userManager;
@@ -34,7 +34,7 @@ namespace PleaseBuy.Controllers
             ViewData["UserId"] = _userManager.GetUserId(this.User);
             ViewData["UserName"] = _userManager.GetUserName(this.User);
 
-            IEnumerable <Order> allOrders = _db.Orders;/*.Where(p => p.Owner == username)*/
+            IEnumerable<Order> allOrders = _db.Orders;/*.Where(p => p.Owner == username)*/
 
             ViewData["allOrders"] = allOrders;
 
@@ -45,7 +45,8 @@ namespace PleaseBuy.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Order obj)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 IEnumerable<PleaseBuyUser> user = _db.Users.Where(x => x.Id == _userManager.GetUserId(this.User));
 
                 var phoneNumber = "No Phone";

@@ -1,0 +1,25 @@
+:root{
+    --s-border-radius: .7rem;
+    --m-border-radius: 2rem;
+    --l-border-radius: 3rem;
+
+    --border-thickness: .2rem;
+    --s-border-thickness: .1rem;
+
+    --color-palatte-orange-1:rgb(255, 177, 104);
+    --color-palatte-orange-2:rgb(255, 124, 1);
+    --color-palatte-orange-3:rgb(216, 105, 2);
+    --color-palatte-orange-4: LightSalmon;
+    --color-palatte-orange-5:rgb(245, 138, 100);
+    --color-palatte-orange-5: PapayaWhip;
+
+    --color-palatte-black: black;
+    --color-palatte-gray:rgb(175, 175, 175);
+    --color-palatte-white:white;
+    --color-palatte-green:SpringGreen;
+
+    --box-shadow-weight: 0 0 1rem;
+
+
+    --body-font-size: 0.875rem;
+}
