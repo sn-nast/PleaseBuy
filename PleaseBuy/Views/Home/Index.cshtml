@@ -1,0 +1,102 @@
+﻿@using PleaseBuy.Areas.Identity.Data;
+@model Order
+@{
+    ViewData["Title"] = "Home Page";
+    IEnumerable<Order> allOrders = ViewData["allOrders"] as IEnumerable<Order>;
+    int count = allOrders.Count();
+
+}
+<div class="home">
+    <div class="add-order-container">
+        <div class="add-container">
+            <h1>เปิดรับฝาก</h1>
+            <button type="button" onclick="openPopup()">
+                <i class="s"><i class="uil uil-plus"></i></i>
+            </button>
+        </div>
+        <div class="list-container">
+            <h1>ออเดอร์ที่เปิดรับฝาก</h1>
+            <div class="order-slider-container d-flex">
+                <div class="pre-btn-container">
+                    <i class="arrow pre-btn"></i>
+                </div>
+                <div class="deposit-order-slider">
+                    @if (count != 0)
+                    {
+                        @foreach (var Order in allOrders.Where(x => x.Confirmed != true))
+                        {
+                            <button type="submit" class="deposit-data-container" onclick="location.href='@Url.Action("Index", "Order", new {OrderId=Order.OrderId, Owner=Order.Owner, Depositor=ViewData["UserName"], Canteen=Order.Canteen})'">
+                                <div class="deposit-data-wrapper d-flex flex-column">
+                                    <h2>@Order.Owner</h2>
+                                    <p>@Order.PhoneNumber</p>
+                                    <p>@Order.Canteen @Order.Time.ToShortTimeString()</p>
+                                    <p>@Order.Location</p>
+                                </div>
+                            </button>
+                        }
+                    }else
+                    {
+                        <div class="none-data-container">
+                            <p>ยังไม่มีออเดอร์จ้าาาา</p>
+                        </div>
+                    }
+                    </div>
+                <div class="nxt-btn-container">
+                    <i class="arrow nxt-btn"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @* ------------------------------- ตรงนี้ ---------------------------------------------*@
+    <div class="">
+
+    </div>
+    @* ------------------------------- ตรงนี้ ---------------------------------------------*@
+
+    <div class="popup p-2" id="add-deposit-order-popup">
+        <i class="uil uil-multiply" onclick="closePopup()"></i>
+        <form method="POST" asp-controller="Home" asp-action="Create" class="h-100 p-3 d-flex flex-column justify-content-between">
+            <div class="w-100 d-flex flex-column g-4">
+                <h1>บลาๆๆๆๆ</h1>
+                <label for="canteens">เลือกโรงอาหาร</label>
+                <select asp-for="Canteen" name="Canteen" id="canteen" required>
+                    <option value="">selcet canteen</option>
+                    <option value="พระเทพ">พระเทพ</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+                <label for="time">เลือกระยะเวลา</label>
+                <select asp-for="TimeLimit" name="TimeLimit" id="time" required>
+                    <option value="">select time</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="60">60</option>
+                </select>
+                <label for="time">เลือกสถานที่รับ</label>
+                <input type="text" asp-for="Location" name="Location" id="location" placeholder="สถานที่รับ" required />
+                <input type="text" asp-for="Owner" name="Owner" value="@ViewData["Username"]" hidden />
+            </div>
+            <button type="submit" onclick="closePopup()">เพิ่มรายการรับฝาก</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    var popup = document.getElementById("add-deposit-order-popup");
+    function openPopup() {
+        popup.style.webkitTransform = "translate(-50%, 69vh)";
+    }
+    function closePopup() {
+        popup.style.webkitTransform = "translate(-50%, -69vh)";
+    }
+
+</script>

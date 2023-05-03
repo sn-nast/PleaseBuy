@@ -1,0 +1,746 @@
+@import url(home.css);
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;500;600&display=swap');
+
+.e-tab .e-tab-header:not(.e-vertical) .e-indicator, .e-tab .e-tab-header.e-vertical .e-indicator {
+    transition: none;
+}
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    box-sizing: border-box;
+
+    font-family: 'Kanit', sans-serif;
+}
+
+:root {
+    --color-primary: #EB5020;
+    --color-Fprimary: #f6d4cb;
+    --color-second: #FDFDFD;
+    --color-btn: #FF3A13;
+    --color-btn2: #2f2f2f56;
+    --color-btn-prm: #c52e00;
+    --color-bg: #1c1c1c;
+    --color-bg2: #e6e6e6;
+}
+
+/* Authorize Login ------------------------------------------------------------------------------------------ */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 55vw;
+    height: 65vh;
+    margin-top: 6%;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.auth-container h1 {
+    font-size: 2.7vw;
+    font-weight: 800;
+}
+.auth-container p {
+    font-size: 1vw;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+.auth-container input[type=text], input[type=password], input[type=email]{
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 120%;
+}
+
+.auth-container #login-submit {
+    border-radius: 20px;
+    border: 1px solid var(--color-btn);
+    background-color: var(--color-btn);
+    color: #FFFFFF;
+    font-size: 0.9vw;
+    font-weight: bold;
+    padding: 0.8vw 3vw;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+.auth-container #login-submit:focus {
+    outline: none;
+}
+
+.auth-container .form-label {
+    font-size: 1vw;
+    cursor: pointer;
+}
+
+.auth-container input[type=checkbox] {
+    border: none;
+    cursor: pointer;
+    background-color: black;
+    accent-color: var(--color-primary);
+}
+.auth-container input[type=checkbox]:checked {
+    background-color: #FF4B2B;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2vw 1vw;
+}
+.login-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-second);
+    height: 100%;
+    padding: 2rem 1rem;
+}
+.required-alert {
+    font-size: .9vw;
+    color: red;
+    width: max-content;
+    margin-left: 11vw;
+}
+
+.login-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--color-primary);
+    height: 100%;
+    padding: 2rem 1rem;
+    color: white;
+}
+.auth-container #signUp {
+    border-radius: 20px;
+    border: 1px solid white;
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    font-size: 0.9vw;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.8vw 3vw;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+/* Authorize Sign Up ------------------------------------------------------------------------------------------ */
+
+.signUp-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--color-primary);
+    height: 100%;
+    padding: 2rem 1rem;
+    color: white;
+}
+
+.auth-container #signIn {
+    border-radius: 20px;
+    border: 1px solid white;
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    font-size: 0.9vw;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.8vw 3vw;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2vw 1vw;
+}
+
+.signUp-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-second);
+    height: 100%;
+    padding: 2rem 1rem;
+}
+
+.auth-container input[type=text] {
+    background-color: #eee;
+    border: none;
+    padding: 9px 15px;
+    margin: 8px 0;
+    width: 120%;
+}
+
+.auth-container #registerSubmit {
+    border-radius: 20px;
+    border: 1px solid var(--color-btn);
+    background-color: var(--color-btn);
+    color: #FFFFFF;
+    font-size: 0.9vw;
+    font-weight: bold;
+    padding: 0.8vw 3vw;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    margin-top: 1vw;
+}
+.auth-container #registerSubmit:focus {
+    outline: none;
+}
+
+.auth-container .register-alert {
+    margin-top: -0.2vw;
+    font-size: .2vw;
+}
+
+
+.register-cs-container {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.register-cs-container .sucess{
+    width: 400px;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #333;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    padding: 0 30px 30px;
+    border-radius: 6px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.register-cs-container .sucess img {
+    width: 100px;
+    margin-top: -50px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.register-cs-container .sucess h2 {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 30px 0 10px;
+}
+.register-cs-container .sucess button {
+    width: 100%;
+    margin-top: 50px;
+    padding: 10px 0;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 300ms;
+}
+.register-cs-container .sucess button:hover {
+    background-color: var(--color-btn-prm); 
+}
+
+/* ---------------------/ home page /--------------------------*/
+
+.home .add-order-container {
+    display: grid;
+    grid-gap: .4vw;
+    padding: .4vw;
+    grid-template-columns: 15% 85%;
+    background-color: white;
+}
+.home .add-order-container h1 {
+    color: var(--color-primary);
+    font-size: 2vw;
+}
+.home .add-container, .list-container {
+    padding: .4vw;
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+.home .add-container button {
+    position: relative;
+    width: 14vw;
+    height: 9vw;
+    border: none;
+    border-radius: 6px;
+    background-color: #30303090;
+}
+.home .add-container button:hover {
+    background-color: #60606090;
+}
+.home .add-container button i.s {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    background-color: #9a9a9a;
+}
+
+.home .add-container button:hover i.s {
+    width: 4.6vw;
+    height: 4.6vw;
+    background-color: #c8c8c8;
+}
+
+.home .add-container button i i {
+    font-size: 2vw;
+}
+
+.home .add-container button:hover i i {
+    font-size: 3vw;
+}
+
+.home .deposit-order-slider {
+    display: flex;
+    gap: .4vw;
+    height: 9vw;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.home .deposit-data-container {
+    display: block;
+    cursor: pointer;
+    min-width: 14.8vw;
+    height: 100%;
+    outline: none;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: antiquewhite;
+    overflow: hidden;
+}
+.home .deposit-data-wrapper {
+    width: 100%;
+}
+
+.home .deposit-data-container:hover {
+    background-color: #ffbc51;
+}
+
+.home .none-data-container {
+    display: block;
+    min-width: 14.8vw;
+    height: 100%;
+    border-radius: 0.2rem;
+    background-color: antiquewhite;
+}
+.home .pre-btn-container, .nxt-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5%;
+}
+.home .arrow {
+    width: 1.8vw;
+    height: 1.8vw;
+    border: .4vw solid #9a9a9a;
+    border-left: 0;
+    border-top: 0;
+    cursor: pointer;
+}
+.home .arrow:hover {
+    border-color: #606060;
+}
+.home .pre-btn {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+.home .nxt-btn {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.home .popup {
+    width: 35vw;
+    height: 35vw;
+    z-index: 10;
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    transform:  translate(-50%, -50%);
+    transition: transform 500ms;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.home .popup i {
+    position: absolute;
+    top: 1%;
+    right: 2%;
+    cursor: pointer;
+    color: #878787;
+    font-size: 2.4vw;
+    transition: 300ms;
+}
+.home .popup i:hover {
+    color: #5b5b5b;
+}
+.home .popup label{
+    font-size: 1.8vw;
+    font-weight: 400;
+}
+.home .popup button {
+    border: none;
+    color: white;
+    padding: .4vw 0;
+    border-radius: 14px;
+    background-color: var(--color-primary);
+    transition: 300ms;
+}
+.home .popup button:hover {
+    background-color: var(--color-btn-prm);
+}
+.home .popup select, input {
+    width: 100%;
+    border: none;
+    padding: .2vw;
+    border-radius: 8px;
+    background-color: var(--color-bg2);
+}
+
+.order {
+    position: relative;
+}
+.order h1, h2{
+    color: var(--color-primary);
+}
+.order .choose-container .choose {
+    border-radius: 18px;
+    padding: 4px 10px;
+    cursor: pointer;
+    background-color: var(--color-Fprimary);
+    border: 3px solid var(--color-Fprimary);
+}
+.order .choose-container .choose:hover {
+    border-color: var(--color-primary);
+}
+.order .choose-container a {
+    color: black;
+    text-decoration: none;
+}
+.order .choose-container a:active {
+    color: var(--color-primary);
+}
+.order .restaurant-container {
+    margin: 2vw 10vw;
+    gap: 2vw;
+}
+
+.order .restaurant-card {
+    gap: 1vw;
+    height: fit-content;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.order .menu-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    height: 10vw;
+    border-radius: 6px;
+    border: 1px solid var(--color-primary);
+    grid-gap: 1vw;
+}
+.order .menu-img {
+    overflow: hidden;
+    border-radius: 6px;
+}
+.order .menu-img img{
+    width: 100%;
+    height: 100%;
+    background: no-repeat;
+}
+.order .menu-detail {
+    height: 100%;
+}
+.order .menu-detail input {
+    height: 2vw;
+    width: 30vw;
+    padding-left: 1vw;
+}
+.order .menu-control {
+    position: absolute;
+    bottom: 5%;
+    right: 2%;
+    margin-right: 2.6vw;
+    margin-bottom: .4vw;
+}
+.order .menu-control button {
+    width: 140%;
+    height: 5.2vh;
+    border: none;
+    outline: none;
+    border-radius: .4vw;
+    color: white;
+    background-color: var(--color-primary);
+}
+.order .menu-control button:hover {
+    background-color: var(--color-btn-prm);
+}
+
+.order .cart-button {
+    position: fixed;
+    top: 10%;
+    right: 2%;
+    width: 4vw;
+    height: 4vw;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 2.6vw;
+    color: white;
+    background-color: var(--color-primary);
+    transition: transform 300ms;
+}
+.order .cart-button i {
+    transform: rotateY(180deg);
+}
+.order span {
+    position: fixed;
+    top: 9%;
+    right: 2%;
+    width: 1vw;
+    height: 1vw;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    font-size: .6vw;
+    color: white;
+    text-align: center;
+}
+
+.order .cart-button:hover {
+    background-color: var(--color-Fprimary);
+}
+
+.order .cart-container {
+    position: fixed;
+    display: grid;
+    grid-template-rows: 15% 60% 25%;
+    top: 19%;
+    right: 2%;
+    width: 22vw;
+    height: 32vw;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    display: none;
+}
+.order .cart-container .my-cart {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.order .my-cart-detail {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    grid-column-gap: .4vw;
+    height: 10vh;
+    border-bottom: 1px solid var(--color-bg2);
+}
+.order .my-cart-detail .title {
+    padding: .3vw;
+    overflow: hidden;
+}
+.order .my-cart-detail .title img{
+    width: 100%;
+    background: no-repeat;
+}
+.order .my-cart-detail .food{
+    margin-top: 1.2vh;
+    line-height: .6vh;
+}
+.order .my-cart-detail p{
+    font-size: .9vw;
+}
+
+.order .cart-summarize {
+    margin: 1vw 2vw;
+}
+.order .cart-summarize button {
+    padding: .3vw 0;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    background-color: var(--color-primary);
+}
+.order .cart-summarize button:hover {
+    background-color: var(--color-btn-prm);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* --------------- / responesive / ---------------- */
+
+@media only screen and (max-width: 1024px) {
+    .auth-container {
+        width: 70vw;
+        height: 60vh;
+    }
+    .auth-container input[type=text], input[type=password], input[type=email] {
+        padding: 9px 12px;
+        margin: 8px 0;
+        width: 100%;
+    }
+    .home .add-order-container {
+        display: grid;
+        grid-gap: .4vw;
+        padding: .4vw;
+        grid-template-columns: 19% 81%;
+    }
+    .home .add-container button {
+        width: 18vw;
+        height: 12vw;
+    }
+    .home .deposit-order-slider {
+        height: 12vw;
+    }
+    .home .deposit-data-container {
+        min-width: 19vw;
+    }
+    .home .popup {
+        width: 44vw;
+        height: 44vw;
+    }
+    .home .popup i {
+        font-size: 3vw;
+    }
+    .order h5 {
+        font-size: 1.8vw;
+    }
+
+    .order h3 {
+        font-size: 2.8vw;
+    }
+    .order .restaurant-container {
+        margin: 2vw 6vw;
+        gap: 2.2vw;
+    }
+    .order .menu-card {
+        grid-template-columns: 25% 75%;
+        height: 14vw;
+    }
+    .order .menu-detail input {
+        height: 3vw;
+        width: 30vw;
+        font-size: 1.8vw;
+    }
+    .order .menu-control {
+        right: 5%;
+    }
+    .order .menu-control button {
+        height: 4vw;
+        font-size: 1.8vw;
+    }
+}
+
+@media only screen and (max-width: 724px) {
+    .auth-container {
+        width: 94vw;
+        height: fit-content;
+    }
+    .auth-container input[type=text], input[type=password], input[type=email] {
+        padding: 4px 10px;
+        margin: 8px 0;
+        width: 100%;
+    }
+    .auth-container .login-right, .signUp-left{
+        padding: 30vw 0;
+    }
+    .home .add-order-container {
+        display: grid;
+        grid-gap: .4vw;
+        padding: .4vw;
+        grid-template-columns: 22% 78%;
+    }
+
+    .home .add-container button {
+        width: 20.5vw;
+        height: 14vw;
+    }
+
+    .home .deposit-order-slider {
+        height: 14vw;
+    }
+    .home .deposit-data-container {
+        min-width: 22.4vw;
+    }
+    .home .popup {
+        width: 60vw;
+        height: 60vw;
+    }
+    .home .popup i {
+        font-size: 4vw;
+    }
+    .order h5 {
+        font-size: 1.6vw;
+    }
+    .order h3 {
+        font-size: 3vw;
+    }
+    .order .restaurant-container {
+        margin: 2vw 4vw;
+        gap: 2.4vw;
+    }
+    .order .menu-card {
+        grid-template-columns: 30% 70%;
+        height: 14vw;
+    }
+    .order .menu-control {
+        right: 6%;
+    }
+    .order .menu-control button {
+        height: 5vw;
+        font-size: 1.6vw;
+    }
+}

@@ -1,0 +1,122 @@
+﻿@model Cart
+
+@{
+    ViewData["Title"] = "Order";
+    IEnumerable<Canteen> allData = ViewData["allData"] as IEnumerable<Canteen>;
+    IEnumerable<Cart> carts = ViewData["Carts"] as IEnumerable<Cart>;
+    List<String> allRestaurants = ViewData["allRestaurants"] as List<String>;
+    var sum = 0;
+}
+
+<div class="order p-2">
+    <h1 class="text-center">โรงอาหาร @ViewData["Canteen"]</h1>
+    <div class="container choose-container w-100 d-flex justify-content-center gap-3">
+        @foreach (var res in allRestaurants)
+        {
+            <div class="choose">
+                <a href="#@res">@res</a>
+            </div>
+        }
+    </div>
+    <div class="restaurant-container d-flex flex-column">
+        @foreach (var res in allRestaurants)
+        {
+            <div id="@res" class="restaurant-card p-3 d-flex flex-column">
+                <h2>@res</h2>
+                @foreach (var d in allData.Where(r => r.Restaurant == res))
+                {
+                    <form method="POST" asp-controller="Order" asp-action="Add">
+                        <input type="text" asp-for="CartId" name="CartId" value="@ViewData["OrderId"]" hidden />
+                        <input type="text" asp-for="Menu" name="Menu" value="@d.Menu" hidden />
+                        <input type="number" asp-for="Price" name="Price" value="@d.Price" hidden />
+                        <input type="number" asp-for="Amount" name="Amount" value="1" hidden />
+                        <input type="text" asp-for="Owner" name="Owner" value="@ViewData["Owner"]" hidden />
+                        <input type="text" asp-for="Canteen" name="Canteen" value="@ViewData["Canteen"]" hidden />
+                        <div class="menu-card p-1">
+                            <div class="menu-img bg-black ">
+                                <img src="https://img.traveltriangle.com/blog/wp-content/uploads/2018/06/belgian-waffles-cover-image.jpg" alt="food"/>
+                            </div>
+                            <div class="menu-detail d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5>@d.Menu</h5>
+                                    <h3>@d.Price</h3>
+                                </div>
+                                <input type="text" asp-for="Annotation" name="Annotation" action="" placeholder="หมายเหตุ" />
+                            </div>
+                            <div class="menu-control d-flex flex-column justify-content-end">
+                                <button type="submit">Add to Cart</button>
+                                @*onclick="location.href='@Url.Action("Add", "Order", new {OrderId=ViewData["OrderId"], Menu=d.Menu, Price=d.Price, Amount=1, Annotation=" ", @Owner=ViewData["Owner"], @Canteen=ViewData["Canteen"], @Depositor=ViewData["UserName"]})'"*@
+                            </div>
+                        </div>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+
+    <button id="cart-btn" class="cart-button d-flex justify-content-center align-items-center" onclick="openCart()">
+        <i class="uil uil-shopping-cart"></i>
+        
+    </button>
+    @if (carts.Count() != 0) {<span>@carts.Count()</span> }
+
+    <div class="cart-container" id="cart">
+        <h3 class="m-2 ms-4 mt-4">MY CART</h3>
+        <div class="my-cart">
+            @if (carts.Count() != 0 ) {
+                @foreach(var item in carts)
+                {
+                    <div class="my-cart-detail">
+                        <div class="title">
+                            <img src="https://i.pinimg.com/originals/fd/80/ec/fd80ecec48eba2a9adb76e4133905879.png" />
+                        </div>
+                        <div class="food d-flex flex-column">
+                            <p>@item.Amount x @item.Menu</p>
+                            <p>@item.Annotation</p>
+                        </div>
+                        <p>฿ @item.Price</p>
+                    </div>
+                    sum += item.Price;
+                }
+            }else
+            {
+                <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+                    <i class="uil uil-search" style="font-size: 3vw"></i>
+                    <p style="text-align:center">YOUR CART IS EMPTY !!</p>
+                </div>
+            }
+        </div>
+        <div class="cart-summarize d-flex flex-column justify-content-center gap-2">
+            <div class="d-flex justify-content-between">
+                <h5>Total Price</h5>
+                <h5>฿ @sum</h5>
+            </div>
+            @if (sum != 0)
+            {
+                <button onclick="location.href='@Url.Action("Index", "Home")'">Order now</button>
+            }else
+            {
+                <button onclick="openCart()">Go to Shopping</button>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    var cart = document.getElementById("cart");
+    var cartBtn = document.getElementById("cart-btn");
+
+    function openCart() {
+        if (cart.style.display === "grid"){
+            cartBtn.style.transform = "rotate(0deg)";
+            cart.style.display = "none";
+        } else {
+            cartBtn.style.transform = "rotate(-80deg)";
+            cart.style.display = "grid";
+        }
+    }
+
+</script>
