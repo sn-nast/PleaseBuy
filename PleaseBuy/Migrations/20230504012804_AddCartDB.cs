@@ -22,7 +22,8 @@ namespace PleaseBuy.Migrations
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Annotation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Canteen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Restaurant = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,3 +39,4 @@ namespace PleaseBuy.Migrations
         }
     }
 }
+

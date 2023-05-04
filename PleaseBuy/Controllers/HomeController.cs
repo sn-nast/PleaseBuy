@@ -31,12 +31,19 @@ namespace PleaseBuy.Controllers
 
         public IActionResult Index()
         {
+            ReloadOrder();
+
             ViewData["UserId"] = _userManager.GetUserId(this.User);
             ViewData["UserName"] = _userManager.GetUserName(this.User);
 
-            IEnumerable<Order> allOrders = _db.Orders;/*.Where(p => p.Owner == username)*/
+            IEnumerable<Order> allOrders = _db.Orders;
 
             ViewData["allOrders"] = allOrders;
+
+
+            IEnumerable<Cart> allCarts = _db.Carts;
+
+            ViewData["allCarts"] = allCarts;
 
             return View();
         }
@@ -67,6 +74,28 @@ namespace PleaseBuy.Controllers
             return View(obj);
         }
 
+        public IActionResult ReloadOrder()
+        {
+            IEnumerable<Order> allOrders = _db.Orders;
+            DateTime now = DateTime.Now;
+            int test = 0;
+
+            foreach (var order in allOrders)
+            {
+                if (!order.Confirmed)
+                {
+                    test = DateTime.Compare(order.Time, now);
+                    if (test == -1)
+                    {
+                        _db.Orders.Remove(order);
+                        _db.SaveChanges();
+                    }
+                }
+
+            }
+
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Privacy()
         {

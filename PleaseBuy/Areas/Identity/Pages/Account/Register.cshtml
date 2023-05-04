@@ -1,4 +1,5 @@
 ﻿@page
+
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -18,11 +19,10 @@
             <input type="text" asp-for="Input.UserName" autocomplete="username" aria-required="true" placeholder="username" />
             <span asp-validation-for="Input.UserName" class="text-danger register-alert"></span>
 
-            <input type="text" asp-for="Input.PhoneNumber" autocomplete="phone-number" aria-required="true" placeholder="phone number" />
-            <span asp-validation-for="Input.PhoneNumber" class="text-danger register-alert"></span>
+            <input type="text" asp-for="Input.PhoneNumber" pattern="[0]{1}[0-9]{9}" autocomplete="username" aria-required="true" placeholder="0xx-xxx-xxxx" />
 
-            <input type="email" asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-            <span asp-validation-for="Input.Email" class="text-danger register-alert"></span>
+            <input type="email" asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="640xxxxx@kmitl.ac.th" id="EmailCheck" oninput="check()" />
+            <span id="alertEmail" class="text-danger register-alert"></span>
 
             <input type="password" asp-for="Input.Password" autocomplete="new-password" aria-required="true" placeholder="password" />
             <span asp-validation-for="Input.Password" class="text-danger register-alert"></span>
@@ -30,43 +30,40 @@
             <input type="password" asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="password" />
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger register-alert"></span>
 
-            <button id="registerSubmit" type="submit">Register</button>
+            <button id="registerSubmit" type="submit" disabled>Register</button>
         </form>
     </div>
 </div>
 
-@*<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-    <h2>Create a new account.</h2>
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="username" />
-        <label asp-for="Input.UserName">Username</label>
-        <span asp-validation-for="Input.UserName" class="text-danger"></span>
-    </div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phone-number" aria-required="true" placeholder="phone number" />
-        <label asp-for="Input.PhoneNumber">Phone Number</label>
-        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-        <label asp-for="Input.Email">Email</label>
-        <span asp-validation-for="Input.Email" class="text-danger"></span>
-    </div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-        <label asp-for="Input.Password">Password</label>
-        <span asp-validation-for="Input.Password" class="text-danger"></span>
-    </div>
-    <div class="form-floating mb-3">
-        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-        <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-    </div>
-    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-</form>*@
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        const users = ['64010876@kmitl.ac.th', '64010965@kmitl.ac.th', '64010892@kmitl.ac.th', '64010899@kmitl.ac.th', '64010926@kmitl.ac.th', '64010935@kmitl.ac.th',
+                       '64010959@kmitl.ac.th', '64010927@kmitl.ac.th', '64010989@kmitl.ac.th', '64010906@kmitl.ac.th', '64011106@kmitl.ac.th', '64011041@kmitl.ac.th',
+                       '64010956@kmitl.ac.th', '64011028@kmitl.ac.th', '64010936@kmitl.ac.th', '64011013@kmitl.ac.th', '64011148@kmitl.ac.th', '64011299@kmitl.ac.th',
+                       '64011071@kmitl.ac.th', '64010986@kmitl.ac.th', '64011153@kmitl.ac.th', '64010930@kmitl.ac.th', '64010972@kmitl.ac.th', '64011109@kmitl.ac.th',
+                       '64010994@kmitl.ac.th', '64011100@kmitl.ac.th', '64011160@kmitl.ac.th', '64010942@kmitl.ac.th', '64011120@kmitl.ac.th', '64010987@kmitl.ac.th',
+                       '64011258@kmitl.ac.th', '64011018@kmitl.ac.th', '64011011@kmitl.ac.th', '64011154@kmitl.ac.th', '64011289@kmitl.ac.th', '64011210@kmitl.ac.th',
+                       '64011281@kmitl.ac.th', '64010889@kmitl.ac.th', '64011150@kmitl.ac.th', '64010997@kmitl.ac.th', '64011273@kmitl.ac.th', '64011123@kmitl.ac.th',
+                       '64011131@kmitl.ac.th', '64011199@kmitl.ac.th', '64011308@kmitl.ac.th', '64011225@kmitl.ac.th', '64011301@kmitl.ac.th', '64010895@kmitl.ac.th',
+                       '64011113@kmitl.ac.th', '64011204@kmitl.ac.th', '64010971@kmitl.ac.th', '64011264@kmitl.ac.th', '64010893@kmitl.ac.th'
+                   ];
+        
+        let email = document.getElementById("EmailCheck");
+        let alertEmail = document.getElementById("alertEmail");
+        let submitBtn = document.querySelector("#registerSubmit");
+        
+        function check() {
+            if (users.includes(email.value)){
+                alertEmail.innerHTML = "";
+                submitBtn.disabled = false;
+                document.getElementById("registerSubmit").style.cursor = "pointer";
+                
+            }else{
+                submitBtn.disabled = true;
+                document.getElementById("registerSubmit").style.cursor = "not-allowed";
+                alertEmail.innerHTML = "invaid this Email";
+            }
+        }
+    </script>
 }

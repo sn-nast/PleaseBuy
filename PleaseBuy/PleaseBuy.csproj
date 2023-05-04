@@ -12,9 +12,7 @@
     <None Include="wwwroot\constants.js" />
     <None Include="wwwroot\js\Order.js" />
     <None Include="wwwroot\css\OwnerOrder.css" />
-    <None Include="wwwroot\js\OwnerOrder.js" />
     <None Include="wwwroot\js\OwnerOrderNew.js" />
-    <None Include="wwwroot\js\reactApp.js" />
   </ItemGroup>
 
   <ItemGroup>

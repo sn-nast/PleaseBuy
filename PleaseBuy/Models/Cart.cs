@@ -21,5 +21,7 @@ namespace PleaseBuy.Models
         
         public string Owner { get; set; }
 
+        public string Restaurant { get; set; }
+
     }
 }

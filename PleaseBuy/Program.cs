@@ -6,8 +6,7 @@ using PleaseBuy.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PleaseBuyContextConnection") ?? throw new InvalidOperationException("Connection string 'PleaseBuyContextConnection' not found.");
 
-builder.Services.AddDbContext<PleaseBuyContext>(
-    options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<PleaseBuyContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<PleaseBuyUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<PleaseBuyContext>();
 

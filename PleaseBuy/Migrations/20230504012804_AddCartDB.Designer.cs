@@ -12,7 +12,7 @@ using PleaseBuy.Data;
 namespace PleaseBuy.Migrations
 {
     [DbContext(typeof(PleaseBuyContext))]
-    [Migration("20230503031735_AddCartDB")]
+    [Migration("20230504012804_AddCartDB")]
     partial class AddCartDB
     {
         /// <inheritdoc />
@@ -280,6 +280,10 @@ namespace PleaseBuy.Migrations
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<string>("Restaurant")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

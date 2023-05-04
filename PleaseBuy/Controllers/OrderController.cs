@@ -4,7 +4,7 @@ using PleaseBuy.Areas.Identity.Data;
 using PleaseBuy.Data;
 using PleaseBuy.Models;
 using System.Net;
-using System.Numerics;
+//using System.Numerics;
 
 namespace PleaseBuy.Controllers
 {
@@ -18,91 +18,78 @@ namespace PleaseBuy.Controllers
             _userManager = userManager;
             _db = db;
         }
-        public IActionResult Index(Order obj)
+        public IActionResult Index(string? OrderId)
         {
-            ViewData["UserName"] = _userManager.GetUserName(this.User);
+            var datas = _db.Orders.Find(OrderId);
+            var depositor = _userManager.GetUserName(this.User);
 
-            if (obj.Owner == _userManager.GetUserName(this.User)) {
+            if (datas.Owner == depositor)
+            {
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
 
-            IEnumerable<Order> newObj = _db.Orders.Where(o => o.OrderId == obj.OrderId);
-            foreach (var ob in newObj)
-            {
-                if (ob == null)
-                {
-                    Console.Write("------------------Error-----------------");
-                    return RedirectToAction("Error", "Home", new { area = "" });
-                }
-                ob.Confirmed = true;
-                ob.Depositor = obj.Depositor;
+            datas.Depositor = depositor;
+            datas.Confirmed = true;
 
-                if (!ModelState.IsValid)
-                {
-                    _db.Orders.Update(ob);
-                    _db.SaveChanges();
-                }
-            }
+            _db.Orders.Update(datas);
+            _db.SaveChanges();
 
-            var canteen = "";
-            ViewData["OrderId"] = obj.OrderId;
-            ViewData["Owner"] = obj.Owner;
-
-            try
-            {
-                ViewData["OrderId"] = Request.Query["OrderId"];
-                canteen = Request.Query["Canteen"];
-            }
-            catch (Exception) {
-                ViewData["OrderId"] = "";
-                canteen = "";
-            }
-
-            IEnumerable<Canteen> allData = _db.Canteens.Where(p => p.Name == canteen);
-            IEnumerable<Cart> carts = _db.Carts.Where(p => p.CartId == obj.OrderId);
+            IEnumerable<Canteen> allData = _db.Canteens.Where(p => p.Name == datas.Canteen);
+            IEnumerable<Cart> carts = _db.Carts.Where(p => p.CartId == OrderId);
 
             List<String> allRestaurants = (from data in allData select data.Restaurant).Distinct().ToList();
-            
+
+            ViewData["OrderId"] = OrderId;
             ViewData["allData"] = allData;
             ViewData["allRestaurants"] = allRestaurants;
-            ViewData["Canteen"] = canteen;
+            ViewData["Owner"] = datas.Owner;
+            ViewData["Canteen"] = datas.Canteen;
             ViewData["Carts"] = carts;
-
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(String? OrderId)
-        {
-            var newObj = _db.Orders.Find(OrderId);
-            if (newObj != null) { return NotFound(); }
-
-            newObj.Confirmed = true;
-
-            if (!ModelState.IsValid)
-            {
-                _db.Orders.Update(newObj);
-                _db.SaveChanges();
-                RedirectToAction("Index");
-            }
-
-            return View(newObj);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Add(Cart obj)
         {
-            var username = _userManager.GetUserName(this.User);
-
+            IEnumerable<Cart> carts = _db.Carts.Where(m => m.CartId == obj.CartId);
             if (obj.Annotation == null) { obj.Annotation = ""; }
+
+            foreach (var cart in carts) {
+                if (cart.Menu == obj.Menu && cart.Annotation == obj.Annotation) {
+                    var newCart = cart;
+                    newCart.Amount += 1;
+                    _db.Carts.Update(newCart);
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Index", new { OrderId = obj.CartId });
+                }
+            }
 
             _db.Carts.Add(obj);
             _db.SaveChanges();
 
-            return RedirectToAction("Index", new {OrderId=obj.CartId, Owner=obj.Owner, Depositor=username, Canteen=obj.Canteen});
+            return RedirectToAction("Index", new { OrderId = obj.CartId});
+        }
+
+        public IActionResult DeleteMenu(int? id)
+        {
+            var cart = _db.Carts.Find(id);
+            if (cart != null) {
+                if (cart.Amount > 1) {
+                    var newCart = cart;
+                    newCart.Amount -= 1;
+                    _db.Carts.Update(newCart);
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Index", new { OrderId = cart.CartId });
+                }
+            }
+            _db.Carts.Remove(cart);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index", new { OrderId = cart.CartId });
         }
     }
 }

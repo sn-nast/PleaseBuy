@@ -129,6 +129,15 @@ namespace PleaseBuy.Areas.Identity.Pages.Account
                 await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                try
+                {
+                    var userCheck = await _userManager.FindByEmailAsync(Input.Email);
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
