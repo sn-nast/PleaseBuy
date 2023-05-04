@@ -1298,14 +1298,15 @@ body {
     .home .status-container {
         display: flex;
         justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
         flex-direction: row;
-        gap: .4vw;
+        gap: 0.4vw;
     }
 
     .home .sun-container, .aun-container {
         width: 50%;
         flex: 1 1 500px;
-        height: 65vh;
+        height: 60vh;
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }

@@ -98,24 +98,35 @@
 
                                 <div class="order-card__title border-inherit">
                                     <div class="order-card__title__info flex-wrap border-curve-s ">
-                                        <div class="flex-wrap">
-                                            <h2>@order.Canteen</h2>
-                                            <h2>@order.Location</h2>
-                                        </div>
+                                        @{
+                                            var buyerStatus = CheckBuyerStatus(
+                                            isPrepared: order.Prepared,
+                                            isDelivered: order.Delivery,
+                                            isCanceled: order.CancelConfirmed
+                                            );
+                                            Dictionary<string, object> statusInfo = GetOwnerStatusInfo(buyerStatus);
+                                        }
+                                        @if (buyerStatus == "WAITING")
+                                        {
+                                            <div class="grid-wrap">
+                                                <p>ไปที่</p> <h3>@order.Canteen</h3>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="grid-wrap">
+                                                <p>รับที่</p>
+                                                <h3>@order.Location</h3>
+                                            </div>
+                                        }
+
 
                                     </div>
 
                                     <div class="order-card__title__status border-curve-s @(order.Delivery ? "order-card__title__status-success" : "")">
                                         <div class="status__title border-curve-s @(order.Delivery ? "status__title__success" : "")">
 
-                                            @{
-                                                var buyerStatus = CheckBuyerStatus(
-                                                isPrepared: order.Prepared,
-                                                isDelivered: order.Delivery,
-                                                isCanceled: order.CancelConfirmed
-                                                );
-                                                Dictionary<string, object> statusInfo = GetOwnerStatusInfo(buyerStatus);
-                                            }
+                                            
                                             <img src="@statusInfo["statusIcon"]" alt="" />
                                         </div>
                                         <div class="status__extra">
@@ -158,21 +169,22 @@
                                                             <div class="order-item__detail">
                                                                 <p>@item.Menu</p>
                                                             </div>
-                                                            <p>@item.Amount</p>
+                                                            <p> x @item.Amount</p>
                                                             <p>฿ @item.Price</p>
                                                         </div>
                                                     }
                                                 }
                                             }
                                         </div>
-                                        @if (order.Delivery)
+                                        @if (buyerStatus == "SUCCESS")
                                         {
-                                            <a type="button" asp-controller="Home" asp-action="CompleteOrder" asp-route-OrderId="@order.OrderId"> กดเพื่อยืนยันได้รับแล้ว </a>
+                                            <button>
+                                                <a type="button" asp-controller="Home" asp-action="CompleteOrder" asp-route-OrderId="@order.OrderId"> กดเพื่อยืนยันได้รับแล้ว </a>
+                                            </button>
                                         }
-                                        else
+                                        else if (buyerStatus == "WAITING")
                                         {
-                                            var isOwnerDeleteOrder = false;
-                                            <a type="button" asp-controller="Home" asp-action="CancelOrder" asp-route-OrderId="@order.OrderId"> ยกเลิก </a>
+                                            <a type="button" asp-controller="Home" asp-action="CancelOrder" asp-route-OrderId="@order.OrderId" role="button"> ยกเลิก </a>
                                             @*<button type="button" onClick="handlerConfirmCancelOrder(@order)">ยกเลิกการฝาก</button>*@
                                         }
                                     </div>
@@ -324,7 +336,7 @@
                 statusIcon = Url.Content("~/assets/order.png");
                 statusDetail = "รอการยืนยัน";
                 extraDetail =
-                        @"
+                                    @"
                     <p>ผู้รับฝากต้องยืนยันภายใน {{buyerConfirmTime}}</p>
                     <p>เวลา {{buyerConfirmTime}}</p>
                 ";
@@ -339,7 +351,7 @@
                 statusIcon = Url.Content("~/assets/location.png");
                 statusDetail = "ถึงที่จัดส่งแล้ว";
                 extraDetail =
-                        @"
+                                    @"
                     <p>โปรดยืนยันว่าได้รับแล้วภายใน {{ }}</p>
                 ";
                 break;
