@@ -79,8 +79,10 @@
 
 
     <div class="status-container">
-        <div class="sun-container">
 
+        @* ------------------------------- owner ---------------------------------------------*@
+
+        <div class="sun-container">
             <div id="owner-order-container">
                 <h2>สถานะการฝากซื้อ</h2>
                 <div class="order-cards-container">
@@ -96,7 +98,11 @@
 
                                 <div class="order-card__title border-inherit">
                                     <div class="order-card__title__info flex-wrap border-curve-s ">
-                                        <h2>@order.Canteen</h2>
+                                        <div class="flex-wrap">
+                                            <h2>@order.Canteen</h2>
+                                            <h2>@order.Location</h2>
+                                        </div>
+
                                     </div>
 
                                     <div class="order-card__title__status border-curve-s @(order.Delivery ? "order-card__title__status-success" : "")">
@@ -148,6 +154,7 @@
                                                     if (item.CartId == order.OrderId)
                                                     {
                                                         <div class="order-item grid-wrap">
+                                                            <img src="/assets/food.png" />
                                                             <div class="order-item__detail">
                                                                 <p>@item.Menu</p>
                                                             </div>
@@ -184,8 +191,7 @@
         </div>
 
 
-
-        @* ------------------------------- ตรงนี้ ---------------------------------------------*@
+        @* ------------------------------- buyer ---------------------------------------------*@
 
         <div class="aun-container">
             <div class='buyer-order-container'>
@@ -242,7 +248,6 @@
                     }
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -293,20 +298,6 @@
         popup.style.webkitTransform = "translate(-50%, -69vh)";
     }
 
-
-    function handlerConfirmCancelOrder({ order }) {
-        console.log("test");
-        if (window.confirm("คุณต้องการลบรายการฝากหรือไม่")) {
-            order.Canceled = true;
-        }
-    }
-
-    function handlerOwnerOrderSuccess({ isSuccess }) {
-        if (window.confirm("Hwlllllo")) {
-            isCanceled = true;
-        }
-    }
-
 </script>
 
 
@@ -332,7 +323,8 @@
             case "WAITING":
                 statusIcon = Url.Content("~/assets/order.png");
                 statusDetail = "รอการยืนยัน";
-                extraDetail = @"
+                extraDetail =
+                        @"
                     <p>ผู้รับฝากต้องยืนยันภายใน {{buyerConfirmTime}}</p>
                     <p>เวลา {{buyerConfirmTime}}</p>
                 ";
@@ -346,7 +338,8 @@
             case "SUCCESS":
                 statusIcon = Url.Content("~/assets/location.png");
                 statusDetail = "ถึงที่จัดส่งแล้ว";
-                extraDetail = @"
+                extraDetail =
+                        @"
                     <p>โปรดยืนยันว่าได้รับแล้วภายใน {{ }}</p>
                 ";
                 break;
@@ -362,7 +355,6 @@
 
         return statusInfo;
     }
-
 
     string CheckBuyerStatus(
         bool isPrepared = false,

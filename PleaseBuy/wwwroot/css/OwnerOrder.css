@@ -7,9 +7,9 @@
     margin: 1.5rem;
     padding: 15px;
     background-color: darkorange;
-    width: 45vw;
-    min-height: 40vh;
-    max-height: 55vh;
+    /*width: 45vw;
+    min-height: 40vh;*/
+    max-height: 50vh;
     font-size: var(--body-font-size);
     box-shadow: var(--box-shadow-weight);
     border-radius: var(--l-border-radius);
@@ -19,9 +19,9 @@
     -o-border-radius: var(--l-border-radius);
 }
 
-#owner-order-container > h2{
-    color: white;
-}
+    #owner-order-container > h2 {
+        color: white;
+    }
 /* RWD */
 /* 320px — 480px: Mobile devices
 481px — 768px: iPads, Tablets
@@ -67,7 +67,7 @@
     align-items: center;
     padding: 1%;
     background-color: sandybrown;
-    height: 90%
+    height: 60%
 }
 
     .order-card__title > * {
@@ -209,23 +209,28 @@
         text-decoration: blink;
     }
 
-    .order-item {
-        grid-template-columns: 1fr 2fr 1fr 1fr;
-        align-items: center;
-        align-content: center;
-        background-color: var(--color-palatte-orange-5);
-        height: fit-content;
-        margin: 0.5rem;
-        box-sizing: border-box;
-        border-radius: inherit;
-        -webkit-border-radius: inherit;
-        -moz-border-radius: inherit;
-        -ms-border-radius: inherit;
-        -o-border-radius: inherit;
-    }
+.order-item {
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    align-items: center;
+    align-content: center;
+    background-color: var(--color-palatte-orange-5);
+    height: 3.5em margin: 0.5rem;
+    box-sizing: border-box;
+    border-radius: inherit;
+    margin: 0.6em 2em;
+    -webkit-border-radius: inherit;
+    -moz-border-radius: inherit;
+    -ms-border-radius: inherit;
+    -o-border-radius: inherit;
+}
 
     .order-item > * {
         margin: 0;
+    }
+
+    .order-item > img {
+        width: 30%;
+        padding: 2%;
     }
 
 .order-item__detail {
@@ -239,6 +244,8 @@
     .order-item__detail > p {
         margin: 0;
     }
+
+
 
 button {
     align-items: center;
