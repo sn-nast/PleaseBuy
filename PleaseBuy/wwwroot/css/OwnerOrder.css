@@ -6,7 +6,7 @@
     text-align: center;
     margin: 1.5rem;
     padding: 15px;
-    background-color: bisque;
+    background-color: darkorange;
     width: 45vw;
     min-height: 40vh;
     max-height: 55vh;
@@ -17,6 +17,10 @@
     -moz-border-radius: var(--l-border-radius);
     -ms-border-radius: var(--l-border-radius);
     -o-border-radius: var(--l-border-radius);
+}
+
+#owner-order-container > h2{
+    color: white;
 }
 /* RWD */
 /* 320px — 480px: Mobile devices
@@ -34,7 +38,10 @@
         align-items: center;
     }
 }
-
+/* 
+.order-card__detail border-curve-m > p{
+    color: #c85000;
+} */
 
 .order-cards-container {
     overflow: auto;
@@ -44,7 +51,7 @@
 .order-card {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-palatte-orange-1);
+    background-color: wheat;
     margin: 1.0em;
     margin-bottom: 2em;
     box-shadow: var(--box-shadow-weight);
@@ -59,7 +66,7 @@
     grid-template-columns: 40% 50% 10%;
     align-items: center;
     padding: 1%;
-    background-color: var(--color-palatte-orange-5);
+    background-color: sandybrown;
     height: 90%
 }
 
@@ -74,11 +81,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 5%;
+    margin: 10%;
     flex-wrap: wrap;
     height: max-content;
     box-sizing: border-box;
-    background-color: var(--color-palatte-orange-2);
+    background-color: tomato;
     padding-inline: 2%
 }
 
@@ -99,13 +106,13 @@
     grid-template-columns: 2fr 3fr;
     box-sizing: border-box;
     align-items: center;
-    background-color: lightcoral;
+    background-color: rgb(229, 131, 82);
     margin: 5%;
-    height: 80%;
+    height: 65%;
 }
 
 .order-card__title__status-success {
-    background-color: var(--color-palatte-green);
+    background-color: limegreen;
 }
 
 .status__title {
@@ -113,12 +120,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-palatte-orange-4);
-    height: 85%;
+    background-color: sandybrown;
+    height: 60%;
     min-width: 50%;
     box-sizing: border-box;
     padding: 2%;
-    margin: 0.25em;
+    /* margin: 0.25em; */
+    margin-left: 20%;
 }
 
     .status__title > p {
@@ -174,7 +182,7 @@
     display: flex;
     flex-direction: column;
     margin: 0.8rem 1rem 1.3rem 1rem;
-    background-color: bisque;
+    background-color: orange;
 }
 
     .order-card__detail > p {
@@ -194,23 +202,27 @@
     max-height: 35vh;
     margin: 0 1rem;
     padding: 0.3rem 0;
-    background-color: var(--color-palatte-orange-4);
+    background-color: wheat;
 }
 
-.order-item {
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-    align-items: center;
-    align-content: center;
-    background-color: var(--color-palatte-orange-5);
-    height: fit-content;
-    margin: 0.5rem;
-    box-sizing: border-box;
-    border-radius: inherit;
-    -webkit-border-radius: inherit;
-    -moz-border-radius: inherit;
-    -ms-border-radius: inherit;
-    -o-border-radius: inherit;
-}
+    .order-items-container > a {
+        text-decoration: blink;
+    }
+
+    .order-item {
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+        align-items: center;
+        align-content: center;
+        background-color: var(--color-palatte-orange-5);
+        height: fit-content;
+        margin: 0.5rem;
+        box-sizing: border-box;
+        border-radius: inherit;
+        -webkit-border-radius: inherit;
+        -moz-border-radius: inherit;
+        -ms-border-radius: inherit;
+        -o-border-radius: inherit;
+    }
 
     .order-item > * {
         margin: 0;
@@ -258,6 +270,7 @@ button {
     touch-action: manipulation;
     vertical-align: baseline;
     width: auto;
+    margin-right: 20%;
 }
 
     button:hover,
@@ -278,17 +291,17 @@ button {
 
     button > img {
         width: 70%;
-        padding: 5%
+        /* padding: 5% */
     }
 
 /* Scroll bar */
 ::-webkit-scrollbar {
     width: 0.4rem;
-    background: DarkSalmon;
+    background: sandybrown;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: OrangeRed;
+    background: burlywood;
     border-radius: .3rem;
     -webkit-border-radius: .3rem;
     -moz-border-radius: .3rem;

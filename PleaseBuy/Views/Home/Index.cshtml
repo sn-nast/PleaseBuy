@@ -6,7 +6,7 @@
     IEnumerable<Order> allOrders = ViewData["allOrders"] as IEnumerable<Order>;
     int count = allOrders.Count();
     IEnumerable<Cart> allCarts = ViewData["allCarts"] as IEnumerable<Cart>;
-
+    List<String> allRestaurants = ViewData["allRestaurants"] as List<String>;
     string userName = ViewData["UserName"].ToString();
 }
 
@@ -77,17 +77,18 @@
         </div>
     </div>
 
+
     <div class="home-status-container">
         <div id="owner-order-container">
             <h2>สถานะการฝากซื้อ</h2>
             <div class="order-cards-container">
                 @{
-                    var filterOrders = allOrders.Where(order => order.Owner == userName);
+                    var filterOrders = allOrders.Where(order => order.Depositor == userName);
                 }
                 @if (filterOrders != null && filterOrders.Any())
                 {
 
-                    @foreach (var order in allOrders.Where(i => i.Owner == @userName))
+                    @foreach (var order in allOrders.Where(i => i.Depositor == @userName))
                     {
                         <div class="order-card border-curve-m wrap-collabsible">
 
@@ -96,20 +97,14 @@
                                     <h2>@order.Canteen</h2>
                                 </div>
 
-                                <div class="order-card__title__status border-curve-s ${handleSuccesBuyerStatus()}">
+                                <div class="order-card__title__status border-curve-s @(order.Delivery ? "order-card__title__status-success" : "")">
                                     <div class="status__title border-curve-s @(order.Delivery ? "status__title__success" : "")">
 
-                                        <script>
-                                            function checkBuyerStatus() {
-                                                // implementation of checkBuyerStatus function
-                                            }
-                                        </script>
                                         @{
                                             var buyerStatus = CheckBuyerStatus(
-                                            isConfirmed: order.Confirmed,
                                             isPrepared: order.Prepared,
                                             isDelivered: order.Delivery,
-                                            isCanceled: order.Canceled
+                                            isCanceled: order.CancelConfirmed
                                             );
                                             Dictionary<string, object> statusInfo = GetOwnerStatusInfo(buyerStatus);
                                         }
@@ -117,7 +112,7 @@
                                     </div>
                                     <div class="status__extra">
                                         <h5>@statusInfo["statusDetail"]</h5>
-                                        <p>@statusInfo["extraDetail"]</p>
+                                        @*<p>"statusInfo["extraDetail"]"</p>*@
                                     </div>
                                 </div>
 
@@ -155,7 +150,7 @@
                                                             <p>@item.Menu</p>
                                                         </div>
                                                         <p>@item.Amount</p>
-                                                        <p>@item.Price</p>
+                                                        <p>฿ @item.Price</p>
                                                     </div>
                                                 }
                                             }
@@ -163,12 +158,13 @@
                                     </div>
                                     @if (order.Delivery)
                                     {
-                                        <button type="button" onClick="handlerOwnerOrderSuccess(@order.Completed)"> กดเพื่อยืนยันได้รับแล้ว </button>
+                                        <a type="button" asp-controller="Home" asp-action="CompleteOrder" asp-route-OrderId="@order.OrderId"> กดเพื่อยืนยันได้รับแล้ว </a>
                                     }
                                     else
                                     {
                                         var isOwnerDeleteOrder = false;
-                                        <button type="button" onClick="handlerConfirmCancelOrder()">ยกเลิกการฝาก</button>
+                                        <a type="button" asp-controller="Home" asp-action="CancelOrder" asp-route-OrderId="@order.OrderId"> ยกเลิก </a>
+                                        @*<button type="button" onClick="handlerConfirmCancelOrder(@order)">ยกเลิกการฝาก</button>*@
                                     }
                                 </div>
                             </div>
@@ -183,9 +179,69 @@
                 }
             </div>
         </div>
+
+
+
+        @* ------------------------------- ตรงนี้ ---------------------------------------------*@
+
+
+        <div class='buyer-order-container'>
+            <div class="middle-field">
+                <div class={'page2'}>
+                    <h1>Your Delivery</h1>
+                    @foreach (var order in allOrders)
+                    {
+                        <div class='delivery-view'>
+                            <div class="delivery-view__meta-field">
+                                <a>
+                                    <h5>@order.Time.ToShortTimeString()</h5>
+                                </a>
+                                <div>
+                                    <h3>@order.Depositor</h3>
+                                    <h5>@order.Canteen</h5>
+                                    <h5>To: @order.Location</h5>
+                                </div>
+                                <button ref={backBtn} onClick={moveToBack}>►</button>
+                                <button ref={nextBtn} onClick={moveToNext}>►</button>
+                            </div>
+                            <div class="delivery-view__user-field">
+                                @*                                if (carts!=null)
+                            {
+                            var filterCarts = carts.Where(cart => cart.CartId == order.OrderId);
+                            if (filterCarts.Count() != 0&&allRestaurants!=null)
+                            {*@
+                                @*                                @foreach (var restaurant in allRestaurants)
+                            {
+
+                            }
+                            }
+                            }*@
+                            </div>
+                        </div>
+                    }
+                    }
+                </div>
+            </div>
+            <div class="menu-list-view">
+                <h2>Order List</h2>
+                @{
+                    Cart[] rightDisplay = { new Cart(), new Cart(), new Cart() };
+
+                    @foreach (var item in rightDisplay)
+                    {
+                        item.Menu = "ข้าวมันไก่";
+                        item.Amount = 1;
+                        <div class="menu-list-view__item">
+                            <h4>@item.Menu</h4>
+                            <h4>@item.Amount</h4>
+                            <a onclick="setHilight(this)" class="cart-hilight-btn">🎨</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
 
-    @* ------------------------------- ตรงนี้ ---------------------------------------------*@
 
     <div class="popup p-2" id="add-deposit-order-popup">
         <i class="uil uil-multiply" onclick="closePopup()"></i>
@@ -234,10 +290,10 @@
     }
 
 
-    function handlerConfirmCancelOrder() {
-        console.log("handler confirm cancel");
+    function handlerConfirmCancelOrder({ order }) {
+        console.log("test");
         if (window.confirm("คุณต้องการลบรายการฝากหรือไม่")) {
-
+            order.Canceled = true;
         }
     }
 
@@ -305,7 +361,6 @@
 
 
     string CheckBuyerStatus(
-        bool isConfirmed = false,
         bool isPrepared = false,
         bool isDelivered = false,
         bool isCanceled = false
@@ -316,16 +371,16 @@
         {
             buyerStatus = "CANCEL";
         }
-        else if (isConfirmed)
+        else if (isPrepared)
         {
-            if (isPrepared)
+            if (isDelivered)
             {
-                if (isDelivered)
-                {
-                    buyerStatus = "SUCCESS";
-                }
+                buyerStatus = "SUCCESS";
             }
-            buyerStatus = "SHIPPING";
+            else
+            {
+                buyerStatus = "SHIPPING";
+            }
         }
         else
         {

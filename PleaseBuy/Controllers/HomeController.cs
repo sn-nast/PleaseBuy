@@ -97,6 +97,20 @@ namespace PleaseBuy.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult CompleteOrder(string? OrderId)
+        {
+            var orders = _db.Orders.Find(OrderId);
+
+            if (orders != null)
+            {
+                _db.Orders.Remove(orders);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -107,6 +121,21 @@ namespace PleaseBuy.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult CancelOrder(string? OrderId)
+        {
+            var Order = _db.Orders.Find(OrderId);
+
+            if (Order != null)
+            {
+                var newOrder = Order;
+                newOrder.Canceled = true;
+                _db.Orders.Update(newOrder);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
