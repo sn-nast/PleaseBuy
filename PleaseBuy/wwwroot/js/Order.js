@@ -124,22 +124,4 @@ export function createOrderSample(amount) {
     return orders;
 }
 
-// function parseToOrdersObject(ordersInJSON) {
-//     const data = JSON.parse(ordersInJSON);
-//     const orders = data.map(order => {
-//         const buyer = new Buyer(order.buyer.buyer_name, order.buyer.buyer_lastname);
-//         const orderItems = order.canteen.shops.flatMap((shop) => {
-//             return shop.order_items.map((item) => {
-//                 return new OrderItem(item.item_id, item.item_name, item.item_price, item.item_amount);
-//             });
-//         });
-//         const shops = order.canteen.shops.map((shop) => {
-//             return new Shop(shop.shop_name, orderItems);
-//         });
-//         const canteen = new Canteen(shops);
-//         return new Order(order.order_id, buyer, canteen);
-//     });
-//     return orders;
-// }
-
 

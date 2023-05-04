@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace PleaseBuy.Controllers
 {
-    // [Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<PleaseBuyUser> _userManager;

@@ -744,3 +744,8 @@ body {
         font-size: 1.6vw;
     }
 }
+
+.home-status-container {
+    display: flex
+    
+}

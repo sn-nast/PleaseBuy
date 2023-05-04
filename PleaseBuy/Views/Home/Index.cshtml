@@ -1,13 +1,24 @@
 ﻿@using PleaseBuy.Areas.Identity.Data;
-@using React.Web.Mvc
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
 
 @model Order
 @{
     ViewData["Title"] = "Home Page";
     IEnumerable<Order> allOrders = ViewData["allOrders"] as IEnumerable<Order>;
+    IEnumerable<Cart> carts = ViewData["Carts"] as IEnumerable<Cart>;
+    List<String> allRestaurants = ViewData["allRestaurants"] as List<String>;
     int count = allOrders.Count();
-
 }
+
+
+<head>
+    <link rel="stylesheet" href="~/css/OwnerOrder.css" asp-append-version="true" />
+    <script src="~/js/Owner.js"></script>
+    <script src="~/js/OwnerOrderNew.js"></script>
+
+</head>
+
+
 <div class="home">
     <div class="add-order-container">
         <div class="add-container">
@@ -27,7 +38,8 @@
                     {
                         @foreach (var Order in allOrders.Where(x => x.Confirmed != true))
                         {
-                            <button type="submit" class="deposit-data-container" onclick="location.href='@Url.Action("Index", "Order", new {OrderId=Order.OrderId, Owner=Order.Owner, Depositor=ViewData["UserName"], Canteen=Order.Canteen})'">
+                            <button type="submit" class="deposit-data-container" onclick="location.href='@Url.Action("Index", "Order", new
+    {OrderId=Order.OrderId, Owner=Order.Owner, Depositor=ViewData["UserName"], Canteen=Order.Canteen})'">
                                 <div class="deposit-data-wrapper d-flex flex-column">
                                     <h2>@Order.Owner</h2>
                                     <p>@Order.PhoneNumber</p>
@@ -36,33 +48,120 @@
                                 </div>
                             </button>
                         }
-                    }else
+                    }
+                    else
                     {
                         <div class="none-data-container">
                             <p>ยังไม่มีออเดอร์จ้าาาา</p>
                         </div>
                     }
-                    </div>
+                </div>
                 <div class="nxt-btn-container">
                     <i class="arrow nxt-btn"></i>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <div>
-        @* ------------------------------- ตรงนี้ ---------------------------------------------*@
+    <div class="home-status-container">
+        <div id="owner-order-container">
+            <h2>สถานะการฝากซื้อ</h2>
+            <div class="order-cards-container">
+                @foreach (var order in allOrders)
+                {
+                    <div class="order-card border-curve-m wrap-collabsible">
 
-    </div>
-    <div class="">
+                        <div class="order-card__title border-inherit">
+                            <div class="order-card__title__info flex-wrap border-curve-s ">
+                                <h2>@order.Canteen</h2>
+                            </div>
 
+                            <div class="order-card__title__status border-curve-s ${handleSuccesBuyerStatus()}">
+                                <div class="status__title border-curve-s @(order.Delivery ? "status__title__success" : "")">
+
+                                    <script>
+                                        function checkBuyerStatus() {
+                                            // implementation of checkBuyerStatus function
+                                        }
+                                    </script>
+                                    @{
+                                        var buyerStatus = CheckBuyerStatus(
+                                            isConfirmed: order.Confirmed,
+                                            isPrepared: order.Prepared,
+                                            isDelivered: order.Delivery,
+                                            isCanceled: order.Canceled
+                                            );
+                                        Dictionary<string, object> statusInfo = GetOwnerStatusInfo(buyerStatus);
+                                    }
+                                    <img src="@statusInfo["statusIcon"]" alt="" />
+                                </div>
+                                <div class="status__extra">
+                                    <h5>@statusInfo["statusDetail"]</h5>
+                                    <p>@statusInfo["extraDetail"]</p>
+                                </div>
+                            </div>
+
+                            @{
+                                bool isExpanedDetail = false;
+                            }
+
+                            <div class="order-card__title__option">
+                                <button onclick="handlerExpandCardDetail(isExpanedDetail)">
+                                    @if (isExpanedDetail)
+                                    {
+                                        <img src="~/assets/arrow-up.png" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/assets/arrow-down.png" alt="" />
+                                    }
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="collapsible-content">
+                            <div class="order-card__detail border-curve-m">
+                                <p>รายการที่ฝากซื้อ</p>
+                                <div class="order-items-container border-curve-m">
+                                    @*                                    @{
+                                foreach (var item in carts)
+                                {
+                                if (item.CartId == order.OrderId)
+                                {
+                                <div class="order-item grid-wrap">
+                                <div class="order-item__detail">
+                                <p>@item.Menu</p>
+                                </div>
+                                <p>@item.Amount</p>
+                                <p>@item.Price</p>
+                                </div>
+                                }
+                                }
+                                }*@
+                                </div>
+                                @if (order.Delivery)
+                                {
+                                    <button type="button" onClick="handlerOwnerOrderSuccess(@order.Completed)"> กดเพื่อยืนยันได้รับแล้ว </button>
+                                }
+                                else
+                                {
+                                    <button type="button" onClick="handlerConfirmCancelOrder()">ยกเลิกการฝาก</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
+
     @* ------------------------------- ตรงนี้ ---------------------------------------------*@
 
     <div class="popup p-2" id="add-deposit-order-popup">
         <i class="uil uil-multiply" onclick="closePopup()"></i>
-        <form method="POST" asp-controller="Home" asp-action="Create" class="h-100 p-3 d-flex flex-column justify-content-between">
+        <form method="POST" asp-controller="Home" asp-action="Create"
+              class="h-100 p-3 d-flex flex-column justify-content-between">
             <div class="w-100 d-flex flex-column g-4">
                 <h1>บลาๆๆๆๆ</h1>
                 <label for="canteens">เลือกโรงอาหาร</label>
@@ -97,11 +196,114 @@
 <script>
 
     var popup = document.getElementById("add-deposit-order-popup");
+
     function openPopup() {
         popup.style.webkitTransform = "translate(-50%, 69vh)";
     }
+
     function closePopup() {
         popup.style.webkitTransform = "translate(-50%, -69vh)";
     }
 
+    function handlerExpandCardDetail(isExpanedDetail) {
+
+    }
+
+    function handlerConfirmCancelOrder({ isCanceled }) {
+        if (window.confirm("คุณต้องการลบรายการฝากหรือไม่")) {
+            isCanceled = true;
+        }
+    }
+
+    function handlerOwnerOrderSuccess({ isSuccess }) {
+        if (window.confirm("Hwlllllo")) {
+            isCanceled = true;
+        }
+    }
+
 </script>
+
+
+@functions {
+    Dictionary<string, object> GetOwnerStatusInfo(string buyerStatus)
+    {
+        Dictionary<string, object> statusInfo = new Dictionary<string, object>();
+
+        string statusIcon;
+        string statusDetail = "";
+        string extraDetail = "";
+
+        switch (buyerStatus) {
+            case "CANCEL":
+                statusIcon = Url.Content("~/assets/order.png");
+                statusDetail = "ยกเลิกรับฝาก";
+                extraDetail = @"
+                    <p>ผู้รับฝากยกเลิกการรับฝาก</p>
+                ";
+                break;
+
+            case "WAITING":
+                statusIcon = Url.Content("~/assets/order.png");
+                statusDetail = "รอการยืนยัน";
+                extraDetail = @"
+                    <p>ผู้รับฝากต้องยืนยันภายใน {{buyerConfirmTime}}</p>
+                    <p>เวลา {{buyerConfirmTime}}</p>
+                ";
+                break;
+
+            case "SHIPPING":
+                statusIcon = Url.Content("~/assets/cart.png");
+                statusDetail = "รอการจัดส่ง";
+                break;
+
+            case "SUCCESS":
+                statusIcon = Url.Content("~/assets/location.png");
+                statusDetail = "ถึงที่จัดส่งแล้ว";
+                extraDetail = @"
+                    <p>โปรดยืนยันว่าได้รับแล้วภายใน {{ }}</p>
+                ";
+                break;
+
+            default:
+                statusIcon = Url.Content("~/assets/order.png");
+                break;
+        }
+
+        statusInfo.Add("statusIcon", statusIcon);
+        statusInfo.Add("statusDetail", statusDetail);
+        statusInfo.Add("extraDetail", extraDetail);
+
+        return statusInfo;
+    }
+
+
+    string CheckBuyerStatus(
+        bool isConfirmed = false,
+        bool isPrepared = false,
+        bool isDelivered = false,
+        bool isCanceled = false
+    )
+    {
+        string buyerStatus;
+        if (isCanceled)
+        {
+            buyerStatus = "CANCEL";
+        }
+        else if (isConfirmed)
+        {
+            if (isPrepared)
+            {
+                if (isDelivered)
+                {
+                    buyerStatus = "SHIPPING";
+                }
+            }
+            buyerStatus = "SHIPPING";
+        }
+        else
+        {
+            buyerStatus = "WAITING";
+        }
+        return buyerStatus;
+    }
+}

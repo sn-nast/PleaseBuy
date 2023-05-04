@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useCollapse } from 'react-collapsed';
-import "./BuyerOrder.css"
+import "./OwnerOrder.css"
 
 import orderIcon from '../assets/order.png';
 import cartIcon from '../assets/cart.png';
@@ -8,10 +8,12 @@ import locationIcon from '../assets/location.png';
 import arrowDown from '../assets/arrow-down.png';
 import arrowUp from '../assets/arrow-up.png';
 
-import { PLACE_HOLDER, BUYER_STATUS } from '../pages/constants';
+import { PLACE_HOLDER, BUYER_STATUS, STATUS_ICON } from './constants';
 import * as Order from '../models/Order';
 
-export default function BuyerOrder({ orders }) {
+
+
+export default function OwnerOrder({ orders }) {
     // const [orders, setOrders] = useState(orders);
     const ordersSample = Order.createOrderSample(3);
 
@@ -221,7 +223,7 @@ function OrderStatus({
 
     switch (buyerStatus) {
         case BUYER_STATUS.CANCEL:
-            statusIcon = orderIcon;
+            statusIcon = STATUS_ICON.order;
             statusDetail = "ยกเลิกรับฝาก";
             extraDetail = (
                 <>
@@ -231,7 +233,7 @@ function OrderStatus({
             break;
 
         case BUYER_STATUS.WAITING:
-            statusIcon = orderIcon;
+            statusIcon = STATUS_ICON.order;
             statusDetail = "รอการยืนยัน";
             extraDetail = (
                 <>
@@ -242,12 +244,12 @@ function OrderStatus({
             break;
 
         case BUYER_STATUS.SHIPPING:
-            statusIcon = cartIcon;
+            statusIcon = STATUS_ICON.cart;
             statusDetail = "รอการจัดสั่ง"
             break;
 
         case BUYER_STATUS.SUCCESS:
-            statusIcon = locationIcon;
+            statusIcon = STATUS_ICON.location;
             statusDetail = "ถึงที่จัดส่งแล้ว"
             extraDetail = (
                 <>
@@ -257,7 +259,7 @@ function OrderStatus({
             break;
 
         default:
-            statusIcon = orderIcon;
+            statusIcon = STATUS_ICON.order;
     }
 
     return (
