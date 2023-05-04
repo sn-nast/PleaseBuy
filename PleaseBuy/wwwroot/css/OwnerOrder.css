@@ -31,10 +31,10 @@
 
 @media only screen and (max-width: 724px) {
     .buyer-order-container {
-        margin: 15px auto;
+        margin: 2rem;
         width: 80vw;
-        max-height: 80vh;
-        justify-content:center;
+        height: 80vh;
+        justify-content: center;
         align-items: center;
     }
 }
